@@ -1,0 +1,51 @@
+import { userModel } from "../modules/userModel";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+interface RegisterParams {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+}
+
+interface LoginParams {
+  email: string;
+  password: string;
+}
+
+export const register = async (registerData: RegisterParams) => {
+  const findUser = await userModel.findOne({ email: registerData.email });
+
+  if (findUser) {
+    throw {data: "User already exists",statusCode: 400};
+  }
+
+  const newUser = new userModel(registerData);
+  newUser.password = await bcrypt.hash(newUser.password, 10);
+  await newUser.save();
+  return {data : generateJWT({firstname : newUser.firstname, lastname: newUser.lastname, email: newUser.email}), statusCode: 200};
+};
+
+
+export const login = async (loginData: LoginParams) => {
+  const findUser = await userModel.findOne({ email: loginData.email });
+
+  if (!findUser) {
+    throw {data: "User not found",statusCode: 404};
+  }
+
+  const isMatch = await bcrypt.compare(loginData.password, findUser.password);
+  if (!isMatch) {
+    throw {data: "Invalid credentials",statusCode: 401};
+  }
+
+  return {data: generateJWT({email: findUser.email, firstname: findUser.firstname, lastname: findUser.lastname}), statusCode: 200};
+};
+
+const generateJWT = (data:any) =>{
+  return jwt.sign(data,process.env.KEY as string,{expiresIn:"24h"});
+}
