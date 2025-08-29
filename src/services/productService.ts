@@ -2,6 +2,12 @@ import { productModel } from "../modules/productModel";
 
 export const addProduct = async (productData: {title: string; image: string; price: string; stock: number}) => {
   const newProduct = new productModel(productData);
+
+  const isExist = await productModel.findOne({title: productData.title});
+  if (isExist) {
+    return {data: "Product already exists", statusCode: 400};
+  }
+
   await newProduct.save();
   return {data : newProduct, statusCode: 200};
 };
