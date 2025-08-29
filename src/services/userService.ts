@@ -18,7 +18,8 @@ interface LoginParams {
 }
 
 export const register = async (registerData: RegisterParams) => {
-  const findUser = await userModel.findOne({ email: registerData.email });
+  try{
+      const findUser = await userModel.findOne({ email: registerData.email });
 
   if (findUser) {
     throw {data: "User already exists",statusCode: 400};
@@ -28,11 +29,16 @@ export const register = async (registerData: RegisterParams) => {
   newUser.password = await bcrypt.hash(newUser.password, 10);
   await newUser.save();
   return {data : generateJWT({firstname : newUser.firstname, lastname: newUser.lastname, email: newUser.email}), statusCode: 200};
+
+  }catch(err){
+    return {data: "Internal Server Error", statusCode: 500};
+  }
 };
 
 
 export const login = async (loginData: LoginParams) => {
-  const findUser = await userModel.findOne({ email: loginData.email });
+  try{
+    const findUser = await userModel.findOne({ email: loginData.email });
 
   if (!findUser) {
     throw {data: "User not found",statusCode: 404};
@@ -44,6 +50,9 @@ export const login = async (loginData: LoginParams) => {
   }
 
   return {data: generateJWT({email: findUser.email, firstname: findUser.firstname, lastname: findUser.lastname}), statusCode: 200};
+  }catch(err){
+    return {data: "Internal Server Error", statusCode: 500};
+  }
 };
 
 const generateJWT = (data:any) =>{

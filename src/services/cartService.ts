@@ -8,9 +8,13 @@ interface CreateCartForUSer {
 }
 
 const createCartForUser = async ({ userId }: CreateCartForUSer) => {
+  try{
   const cart = await cartModel.create({ userId });
   await cart.save();
   return cart;
+  } catch(err){
+    throw {data: "Internal Server Error", statusCode: 500};
+  }
 };
 
 interface getActiveCartForUser {
@@ -20,11 +24,15 @@ interface getActiveCartForUser {
 export const getActiveCartForUser = async ({
   userId,
 }: getActiveCartForUser) => {
-  let cart = await cartModel.findOne({ userId, status: "active" });
-  if (!cart) {
-    cart = await createCartForUser({ userId });
+  try {
+    let cart = await cartModel.findOne({ userId, status: "active" });
+    if (!cart) {
+      cart = await createCartForUser({ userId });
+    }
+    return cart;
+  } catch (err) {
+    throw { data: "Internal Server Error", statusCode: 500 };
   }
-  return cart;
 };
 
 interface addItemToCart {
@@ -38,6 +46,7 @@ export const addItemToCart = async ({
   userId,
   quantity,
 }: addItemToCart) => {
+  try{
   const cart = await getActiveCartForUser({ userId });
 
   const existInCart = cart.items.find(
@@ -66,6 +75,9 @@ export const addItemToCart = async ({
 
   const addedItems = await cart.save();
   return { data: addedItems, statusCode: 200 };
+} catch (err) {
+  throw { data: "Internal Server Error", statusCode: 500 };
+}
 };
 
 interface updateIteminCart {
@@ -79,6 +91,7 @@ export const updateItemQuantityInCart = async ({
   userId,
   quantity,
 }: updateIteminCart) => {
+  try{
   const cart = await getActiveCartForUser({ userId });
   const existInCart = cart.items.find(
     (p) => p.product.toString() === productId.toString()
@@ -99,6 +112,9 @@ export const updateItemQuantityInCart = async ({
   cart.totalAmount = total;
   const updatedCart = await cart.save();
   return { data: updatedCart, statusCode: 200 };
+} catch (err) {
+  throw { data: "Internal Server Error", statusCode: 500 };
+}
 };
 
 interface removeItemFromCart {
@@ -110,6 +126,7 @@ export const removeItemFromCart = async ({
   productId,
   userId,
 }: removeItemFromCart) => {
+  try{
   const cart = await getActiveCartForUser({ userId });
   const existInCart = cart.items.find(
     (p) => p.product.toString() === productId.toString()
@@ -130,6 +147,9 @@ export const removeItemFromCart = async ({
   cart.totalAmount = total;
   const updatedCart = await cart.save();
   return { data: updatedCart, statusCode: 200 };
+} catch (err) {
+  throw { data: "Internal Server Error", statusCode: 500 };
+}
 };
 
 const calculateTotalAmount = ({
@@ -153,11 +173,15 @@ interface clearCart{
 
 
 export const clearCart = async ({ userId }: clearCart) => {
+  try{
   const cart = await getActiveCartForUser({ userId });
   cart.items = [];
   cart.totalAmount = 0;
   await cart.save();
   return { data: cart, statusCode: 200 };
+  }catch(err){
+    throw {data: "Internal Server Error", statusCode: 500};
+  }
 };
 
 
@@ -167,6 +191,7 @@ interface checkout{
 }
 
 export const checkout = async ({userId, address}: checkout) => {
+  try{
   if(!address){
     return { data: "Address is required", statusCode: 400 };
   }
@@ -205,4 +230,7 @@ export const checkout = async ({userId, address}: checkout) => {
    cart.status = "completed";
    await cart.save();
    return { data: order, statusCode: 201 };
+  }catch(err){
+  throw {data: "Internal Server Error", statusCode: 500};
+}
 };
