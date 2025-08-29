@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/userRoute"
 import productRoute from "./routes/productRoute";
 import { getProducts } from "./services/productService";
+import cartRoute from "./routes/cartRoute";
 
 
 const app = express();
@@ -16,6 +17,7 @@ getProducts();
 
 app.use('/user', userRoute);
 app.use('/product', productRoute);
+app.use('/cart', cartRoute);
 
 
 app.listen(port, () => {
