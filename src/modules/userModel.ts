@@ -7,7 +7,7 @@ export interface IUser extends Document {
   lastname: string;
   email: string;
   password: string;
-  type: "user" | "admin";
+  type: "user" | "dealer" | "superadmin";
 }
 
 const userSchema = new Schema<IUser>({ 
@@ -15,7 +15,7 @@ const userSchema = new Schema<IUser>({
     lastname: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    type: { type: String, enum: ["user", "admin"], default: "user" }  
+    type: { type: String, enum: ["user", "dealer","superadmin"], default: "user" }  
 });
 
 export const userModel = mongoose.model<IUser>("User", userSchema);
