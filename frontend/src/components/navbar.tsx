@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -10,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -34,12 +34,20 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl" sx={{ backgroundColor: '#383636ff' }}>
+    <AppBar 
+      position="static" 
+      sx={{ 
+        backgroundColor: 'rgba(56, 54, 54, 0.2)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+      }}
+    >
+      <Container maxWidth="xl" sx={{ backgroundColor: 'transparent' }}>
         <Toolbar disableGutters>
           <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "row", width: "100%", alignItems: "center"}}>
           <Box sx={{display: "flex", alignItems: "center", flexDirection: "row"}}>
-          <AdbIcon sx={{ display: "flex", mr: 1 }} />
+          <AdbIcon sx={{ display: "flex", mr: 1, color: 'white' }} />
           <Typography
             variant="h6"
             noWrap
@@ -51,7 +59,7 @@ function Navbar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
@@ -59,7 +67,7 @@ function Navbar() {
           </Typography>
 
           
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'white' }} />
           <Typography
             variant="h5"
             noWrap
@@ -72,7 +80,7 @@ function Navbar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
@@ -87,7 +95,15 @@ function Navbar() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ 
+                mt: '45px',
+                '& .MuiPaper-root': {
+                  backgroundColor: 'rgba(56, 54, 54, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: 'white'
+                }
+              }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -105,7 +121,7 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                  <Typography sx={{ textAlign: 'center', color: 'white' }}>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
