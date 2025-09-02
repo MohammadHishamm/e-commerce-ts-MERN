@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useCart } from '../context/Cart/CartContent';
 
 
 
@@ -15,7 +16,9 @@ interface props {
   image: string;
 }
 
-export default function ProductCard({ title, price, image }: props) {
+export default function ProductCard({ _id, title, price, image }: props) {
+  const { addItemtoCart } = useCart();
+
   return (
     <Card sx={{ 
       height: "400px", 
@@ -63,6 +66,7 @@ export default function ProductCard({ title, price, image }: props) {
         <Button 
           fullWidth 
           variant="contained"
+          onClick={() => addItemtoCart(_id)}
           sx={{
             backgroundColor: 'rgba(255, 255, 255, 0.2)',
             color: 'white',

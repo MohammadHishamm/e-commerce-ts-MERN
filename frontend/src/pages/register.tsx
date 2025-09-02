@@ -5,17 +5,15 @@ import { useAuth } from "../context/auth/auth";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
-    const [error,setError] = useState(" ");
-     const {login} = useAuth();
-     const navigate = useNavigate();
+  const [error, setError] = useState(" ");
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const onSubmit = async () => {
     const firstname = firstNameRef.current?.value;
     const lastname = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     const confirmPassword = confirmPasswordRef.current?.value;
-
-   
 
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
       return setError("All fields are required");
@@ -31,30 +29,25 @@ export const Register = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ firstname, lastname, email, password }),
-
     });
 
-    if(!response.ok) {
+    if (!response.ok) {
       const errorData = await response.json();
       setError(`Error: ${errorData.message || "Registration failed"}`);
       return;
     }
 
-
-
     const token = await response.json();
-    if(!token){
+    if (!token) {
       setError("Incorrect token");
       return;
     }
 
-    login(email,token);
-   navigate("/");
+    login(email, token);
+    navigate("/");
 
     console.log(token);
   };
-
-  
 
   const firstNameRef = React.useRef<HTMLInputElement>(null);
   const lastNameRef = React.useRef<HTMLInputElement>(null);
@@ -127,7 +120,11 @@ export const Register = () => {
           sx={{ mb: 3, background: "rgba(255,255,255,0.8)", borderRadius: 1 }}
           inputRef={confirmPasswordRef}
         />
-        {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+        {error && (
+          <Typography color="error" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+        )}
         <Button
           variant="contained"
           color="success"

@@ -55,9 +55,9 @@ function Navbar() {
     handleCloseUserMenu();
   };
 
-  const navigatetocart=()=>{
-      navigate("/cart");
-  }
+  const navigatetocart = () => {
+    navigate("/cart");
+  };
 
   console.log("From navbar", { username, isAuth });
 
@@ -140,10 +140,19 @@ function Navbar() {
               </Typography>
             </Box>
 
-            <Box gap={4} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+            <Box
+              gap={4}
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="center"
+            >
               <IconButton aria-label="cart">
                 <Badge badgeContent={4} color="secondary">
-                  <ShoppingCart sx={{ color: "white" }} onClick={navigatetocart} />
+                  <ShoppingCart
+                    sx={{ color: "white" }}
+                    onClick={navigatetocart}
+                  />
                 </Badge>
               </IconButton>
               {isAuth ? (
