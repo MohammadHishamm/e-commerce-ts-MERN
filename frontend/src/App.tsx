@@ -7,6 +7,8 @@ import DarkVeil from './components/prism'
 import { Box } from '@mui/material'
 import { Register } from './pages/register'
 import AuthProvider from './context/auth/authProvider'
+import { Cart } from './pages/cart'
+import { ProtectedRoute } from './components/protectedRoute'
 
 function App() {
   return (
@@ -47,6 +49,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
+            <Route element={<ProtectedRoute />}>
+            <Route path="/cart" element={<Cart />} />
+            </Route>
           </Routes>
         </BrowserRouter>
         </AuthProvider>

@@ -10,7 +10,9 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import AlignHorizontalCenterOutlinedIcon from "@mui/icons-material/AlignHorizontalCenterOutlined";
+import { ShoppingCart } from "@mui/icons-material";
+import Badge from "@mui/material/Badge";
 import { useAuth } from "../context/auth/auth";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -53,6 +55,10 @@ function Navbar() {
     handleCloseUserMenu();
   };
 
+  const navigatetocart=()=>{
+      navigate("/cart");
+  }
+
   console.log("From navbar", { username, isAuth });
 
   return (
@@ -83,7 +89,9 @@ function Navbar() {
                 flexDirection: "row",
               }}
             >
-              <AdbIcon sx={{ display: "flex", mr: 1, color: "white" }} />
+              <AlignHorizontalCenterOutlinedIcon
+                sx={{ display: "flex", mr: 1, color: "white" }}
+              />
               <Typography
                 variant="h6"
                 noWrap
@@ -132,7 +140,12 @@ function Navbar() {
               </Typography>
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box gap={4} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+              <IconButton aria-label="cart">
+                <Badge badgeContent={4} color="secondary">
+                  <ShoppingCart sx={{ color: "white" }} onClick={navigatetocart} />
+                </Badge>
+              </IconButton>
               {isAuth ? (
                 <>
                   <Tooltip title="Open settings">
