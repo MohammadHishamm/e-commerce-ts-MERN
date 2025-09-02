@@ -2,11 +2,12 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { BASE_URL } from "../constants/baseURL";
 import { useAuth } from "../context/auth/auth";
-
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
     const [error,setError] = useState(" ");
      const {login} = useAuth();
+     const navigate = useNavigate();
   const onSubmit = async () => {
     const firstname = firstNameRef.current?.value;
     const lastname = lastNameRef.current?.value;
@@ -48,7 +49,7 @@ export const Register = () => {
     }
 
     login(email,token);
-
+   navigate("/");
 
     console.log(token);
   };

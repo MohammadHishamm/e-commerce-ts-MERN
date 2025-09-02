@@ -1,4 +1,4 @@
-import { useState, type FC, type PropsWithChildren } from "react";
+import {  useState, type FC, type PropsWithChildren } from "react";
 import { AuthContext } from "./auth";
 
 
@@ -16,8 +16,10 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       localStorage.setItem("username", username);
   }
 
+  const isAuth = !!token;
+
     return(
-        <AuthContext.Provider value={{ username, token, login }}>
+        <AuthContext.Provider value={{ username, token, login, isAuth }}>
             {children}
         </AuthContext.Provider>
     )
