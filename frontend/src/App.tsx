@@ -6,6 +6,7 @@ import Navbar from './components/navbar'
 import DarkVeil from './components/prism'
 import { Box } from '@mui/material'
 import { Register } from './pages/register'
+import AuthProvider from './context/auth/authProvider'
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         zIndex: 1,
         minHeight: '100vh'
       }}>
+        <AuthProvider>
         <BrowserRouter>
           <Navbar />
           <Routes>  
@@ -47,6 +49,7 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
+        </AuthProvider>
       </Box>
     </Box>
   )

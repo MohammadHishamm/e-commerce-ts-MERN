@@ -1,9 +1,12 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { BASE_URL } from "../constants/baseURL";
+import { useAuth } from "../context/auth/auth";
+
 
 export const Register = () => {
     const [error,setError] = useState(" ");
+     const {login} = useAuth();
   const onSubmit = async () => {
     const firstname = firstNameRef.current?.value;
     const lastname = lastNameRef.current?.value;
@@ -11,6 +14,11 @@ export const Register = () => {
     const password = passwordRef.current?.value;
     const confirmPassword = confirmPasswordRef.current?.value;
 
+   
+
+    if (!firstname || !lastname || !email || !password || !confirmPassword) {
+      return setError("All fields are required");
+    }
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -33,8 +41,16 @@ export const Register = () => {
 
 
 
-    const data = await response.json();
-    console.log(data);
+    const token = await response.json();
+    if(!token){
+      setError("Incorrect token");
+      return;
+    }
+
+    login(email,token);
+
+
+    console.log(token);
   };
 
   
