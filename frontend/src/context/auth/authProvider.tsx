@@ -1,25 +1,35 @@
 import {  useState, type FC, type PropsWithChildren } from "react";
 import { AuthContext } from "./auth";
 
-
+const USERNAME_KEY= "username";
+const TOKEN_KEY= "token";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [username,setUsername] = useState<string | null>(localStorage.getItem("username"));
-    const [token,setToken] = useState<string | null>(localStorage.getItem("token"));
+    const [username,setUsername] = useState<string | null>(localStorage.getItem(USERNAME_KEY));
+    const [token,setToken] = useState<string | null>(localStorage.getItem(TOKEN_KEY));
 
 
 
   const login = (username: string, token: string) => {
       setUsername(username);
       setToken(token);
-      localStorage.setItem("token", token);
-      localStorage.setItem("username", username);
+      localStorage.setItem(USERNAME_KEY, username);
+      localStorage.setItem(TOKEN_KEY, token);
   }
+
+ const logout= ()=>{
+   setUsername(null);
+   setToken(null);
+   localStorage.removeItem(TOKEN_KEY);
+   localStorage.removeItem(USERNAME_KEY);
+ }
+
+
 
   const isAuth = !!token;
 
     return(
-        <AuthContext.Provider value={{ username, token, login, isAuth }}>
+        <AuthContext.Provider value={{ username, token, login, logout, isAuth }}>
             {children}
         </AuthContext.Provider>
     )

@@ -15,9 +15,10 @@ import { useAuth } from "../context/auth/auth";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Fingerprint from "@mui/icons-material/Fingerprint";
+import ShinyText from "./ShinyText";
 
 function Navbar() {
-  const { username, isAuth } = useAuth();
+  const { username, isAuth, logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -44,6 +45,12 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    handleCloseUserMenu();
   };
 
   console.log("From navbar", { username, isAuth });
@@ -92,16 +99,14 @@ function Navbar() {
                   textDecoration: "none",
                 }}
               >
-                Fate
+                <ShinyText
+                  text="Fate"
+                  disabled={false}
+                  speed={3}
+                  className="custom-class"
+                />
               </Typography>
 
-              <AdbIcon
-                sx={{
-                  display: { xs: "flex", md: "none" },
-                  mr: 1,
-                  color: "white",
-                }}
-              />
               <Typography
                 variant="h5"
                 noWrap
@@ -118,7 +123,12 @@ function Navbar() {
                   textDecoration: "none",
                 }}
               >
-                Fate
+                <ShinyText
+                  text="Fate"
+                  disabled={false}
+                  speed={3}
+                  className="custom-class"
+                />
               </Typography>
             </Box>
 
@@ -167,7 +177,7 @@ function Navbar() {
                           Orders
                         </Typography>
                       </MenuItem>
-                      <MenuItem onClick={handleCloseUserMenu}>
+                      <MenuItem onClick={handleLogout}>
                         <Typography
                           sx={{ textAlign: "center", color: "white" }}
                         >
@@ -178,10 +188,26 @@ function Navbar() {
                   </Menu>
                 </>
               ) : (
-                <IconButton aria-label="fingerprint" color="success" onClick={navigateLoginPage}>
-                  <Fingerprint />
-                  Login
-                </IconButton>
+                <Button
+                  onClick={navigateLoginPage}
+                  sx={{
+                    borderRadius: "50px", // pill shape
+                    backgroundColor: "#2e0808ff", // dark background
+                    px: 3, // horizontal padding
+                    py: 1.2, // vertical padding
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                    "&:hover": {
+                      backgroundColor: "#222", // slightly lighter on hover
+                    },
+                  }}
+                >
+                  <ShinyText
+                    text="Login"
+                    disabled={false}
+                    speed={3}
+                    className="custom-class"
+                  />
+                </Button>
               )}
             </Box>
           </Box>
