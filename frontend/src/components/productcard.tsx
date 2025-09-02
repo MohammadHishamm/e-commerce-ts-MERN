@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 
 
 interface props {
-  id: string;
+    _id: string;
   title: string;
   price: number;
   image: string;
 }
 
-export default function ProductCard({ id, title, price, image }: props) {
+export default function ProductCard({ title, price, image }: props) {
   return (
     <Card sx={{ 
       height: "400px", 
@@ -56,7 +56,7 @@ export default function ProductCard({ id, title, price, image }: props) {
           variant="subtitle1" 
           sx={{ color: 'rgba(255, 255, 255, 0.8)' }}
         >
-          ${price.toLocaleString()}
+          ${price.toLocaleString()} EGP
         </Typography>
       </CardContent>
       <CardActions>

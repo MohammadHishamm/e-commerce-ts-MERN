@@ -6,19 +6,36 @@ import Grid from '@mui/material/Grid'
 import { Typography, Box } from '@mui/material'
 import type { Product } from '../types/product'
 import Ads from '../components/ads'
+import { BASE_URL } from '../constants/baseURL'
 
 export const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [error,setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/product")
-      .then(res => res.json())
-      .then(data => setProducts(data))
+    const fetchData = async () =>{
+      try{
+      const response = await fetch(`${BASE_URL}/product`);
+      const data = await response.json();
+      setProducts(data);
+    } catch {
+      setError(true);
+    }
+    }
+    fetchData();
   }, [])
+
+  if(error){
+    return(
+    <Typography variant="h6" color="error" align="center">
+      Error fetching products
+    </Typography>
+    )
+  }
 
   return (
     <>
-      {/* Ads Component */}
+     
       <Ads />
       
       {/* Main Content - Adjusted for ads */}
@@ -44,13 +61,8 @@ export const HomePage = () => {
           </Typography>
           <Grid container spacing={2}>
             {products.map((product) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
-                <ProductCard
-                  id={product._id}
-                  title={product.title}
-                  price={product.price}
-                  image={product.image}
-                />
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <ProductCard {...product} />
               </Grid>
             ))}
           </Grid>

@@ -22,7 +22,7 @@ export const register = async (registerData: RegisterParams) => {
       const findUser = await userModel.findOne({ email: registerData.email });
 
   if (findUser) {
-    throw {data: "User already exists",statusCode: 400};
+    return { data: { message: "User already exists" }, statusCode: 400 };
   }
 
   const newUser = new userModel(registerData);

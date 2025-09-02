@@ -5,6 +5,7 @@ import { LoginPage } from './pages/login'
 import Navbar from './components/navbar'
 import DarkVeil from './components/prism'
 import { Box } from '@mui/material'
+import { Register } from './pages/register'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Routes>  
             <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </Box>
